@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CDD Tracker v1.0 | Free Excel tool for CDD tracking</title>
+  <meta name="description" content="Free Excel workbook for tracking customer due diligence requirements per client case. Full VBA source included.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="../">Mark Justine</a>
+      <nav>
+        <a href="../#tools">Tools</a>
+        <a href="../#about">About</a>
+        <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/issues">Feedback</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <span class="tag">CDD · v1.0</span>
+      <h1>CDD Tracker</h1>
+      <p class="lead">An Excel workbook for tracking customer due diligence requirements per client case, chasing relationship managers (RMs) and handing documents over to compliance.</p>
+
+      <div class="download">
+        <a class="btn" href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/releases/download/cdd-tracker-v1.0/CDD-Tracker-v1.0.zip">Download CDD Tracker v1.0 (.zip)</a>
+        <p class="small">Free · Windows Excel desktop · Includes the workbook, full VBA source, README and license. Unblock the zip before extracting (<a href="#unblock">how</a>).</p>
+        <p class="small">SHA-256 of <code>CDD-Tracker-v1.0.zip</code>:
+          <span class="hash">2cc2bef822a929a70889fbeb0c9a63484c811dc48b06e64f2fb22f2ddf571f7e</span></p>
+      </div>
+
+      <figure>
+        <a href="../assets/cdd-tracker-case-desk.png"><img src="../assets/cdd-tracker-case-desk.png" alt="Case Desk sheet: active cases with overdue follow-ups first, and the selected case's requirements with status and age" width="1917" height="732"></a>
+        <figcaption>Case Desk with fictional sample cases: overdue follow-ups first, one screen per case.</figcaption>
+      </figure>
+
+      <h2>What it does</h2>
+      <ul>
+        <li><strong>Case Desk:</strong> one screen per case. Overdue and due-today follow-ups come first. Tick requirements and move them along: Mark received, Notify compliance, Complete, Reject.</li>
+        <li><strong>Clear statuses:</strong> Outstanding → Requested from RM → Received, awaiting compliance → Sent to compliance → Completed.</li>
+        <li><strong>RM chasers:</strong> put a case's open items into the email you have open in Outlook, or build an RM Report with one Outlook draft and one Excel file per RM.</li>
+        <li><strong>Compliance handover:</strong> drafts an email listing the documents that are ready, with an optional folder link.</li>
+        <li><strong>Quick entry:</strong> paste a requirement list from any email. Optional Outlook import for emails in a fixed format.</li>
+        <li><strong>Audit trail:</strong> every status change, note and follow-up is logged.</li>
+        <li><strong>Dashboard</strong> and <strong>automatic backups</strong> before imports and bulk updates.</li>
+        <li><strong>Your data stays with you.</strong> The workbook sends nothing anywhere. Email features only create drafts for you to review.</li>
+      </ul>
+
+      <figure>
+        <a href="../assets/cdd-tracker-start-here.png"><img src="../assets/cdd-tracker-start-here.png" alt="Start Here sheet with what the tool does, five setup steps and buttons for settings and lists" width="1917" height="726" loading="lazy"></a>
+        <figcaption>Start Here sheet: setup steps and buttons for Settings, Lists, Templates and the full guide.</figcaption>
+      </figure>
+
+      <h2>Requirements</h2>
+      <ul>
+        <li>Windows with Excel desktop (Microsoft 365 or Excel 2016 or later).</li>
+        <li>Classic Outlook for Windows is optional, only for email drafts and Outlook import. The new Outlook and Outlook on the web cannot be used by Excel macros.</li>
+        <li>Mac is not supported.</li>
+      </ul>
+
+      <h2>Set up in 5 steps</h2>
+      <ol>
+        <li>Download the zip and unblock it before extracting (see below).</li>
+        <li>Extract the folder and open <code>CDD-Tracker.xlsm</code>. Click <strong>Enable Content</strong> if asked.</li>
+        <li>Read the <strong>Start Here</strong> sheet.</li>
+        <li>Click <strong>Settings</strong> and fill in at least <code>MyName</code>, plus <code>ComplianceTo</code> if you will use Notify compliance. Then click <strong>Check settings</strong>.</li>
+        <li>Explore the six sample cases on the Case Desk, then click <strong>Clear sample data</strong> when you're ready to use your own.</li>
+      </ol>
+
+      <h2 id="unblock">Unblock the download</h2>
+      <p>Windows blocks macros in files downloaded from the internet. This is a normal security feature. Do this once:</p>
+      <ol>
+        <li>Right-click <code>CDD-Tracker-v1.0.zip</code> and choose <strong>Properties</strong>.</li>
+        <li>On the <strong>General</strong> tab, tick <strong>Unblock</strong>, then click <strong>OK</strong>.</li>
+        <li>Extract the zip. Everything inside is now unblocked.</li>
+      </ol>
+      <p>Already extracted? Close Excel, right-click <code>CDD-Tracker.xlsm</code> › Properties › tick Unblock › OK. On a work computer, your IT team may block internet macros completely; ask them before trying workarounds. Every line of code is in the <code>src</code> folder as plain text for review. Full guide: <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/cdd-tracker/HOW-TO-UNBLOCK.md">HOW-TO-UNBLOCK.md</a>.</p>
+
+      <h2>Disclaimer</h2>
+      <div class="note">
+        <p>Free, unofficial tool provided as is, without warranty. It is not legal, regulatory or compliance advice and does not replace your firm's AML/CFT policies, procedures, screening systems or the judgement of your compliance officer. Before entering client information, confirm your firm's data protection policies allow it. This is a personal project, not affiliated with any employer, firm or regulator. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/cdd-tracker/DISCLAIMER.md">Full disclaimer</a>.</p>
+      </div>
+
+      <h2>License</h2>
+      <p>Creative Commons Attribution-NonCommercial 4.0 International (<a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>). Free to use and adapt for non-commercial purposes with attribution. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/cdd-tracker/LICENSE">License text</a>.</p>
+
+      <h2>Changelog</h2>
+      <h3>1.0 · 4 October 2026</h3>
+      <p>First public release: Case Desk, RM chasers and RM Report, Notify compliance, Email Paste and Paste Import, optional Outlook import, editable lists and templates, Repair layout, automatic backups and six fictional sample cases. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/cdd-tracker/CHANGELOG.md">Full changelog</a> · <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/cdd-tracker/README.md">Full README</a>.</p>
+      <p class="small">Planned for 1.1: renamable statuses.</p>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <p><a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/issues">Report a problem or suggest a feature</a> · <a href="https://www.linkedin.com/in/mark-justine-ruiz-a25a5a308/">LinkedIn</a></p>
+      <p>No cookies, no analytics.</p>
+    </div>
+  </footer>
+</body>
+</html>

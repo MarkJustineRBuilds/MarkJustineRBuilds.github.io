@@ -1,0 +1,99 @@
+<!doctype html>
+<!--
+  NEW TOOL PAGE TEMPLATE
+  1. Copy this file to tools/<tool-slug>.html, replace every UPPERCASE placeholder
+     and delete the robots noindex line below.
+  2. Put screenshots in assets/<tool-slug>-*.png (fictional data only).
+  3. Put the tool's public docs in tools/<tool-slug>/ (README.md, DISCLAIMER.md, CHANGELOG.md, LICENSE).
+  4. Add a card for the tool in index.html (copy the CDD Tracker card).
+  5. Create a GitHub release tagged <tool-slug>-vX.Y with the zip attached; the Download link below points to it.
+  6. Run the leak scanner on the site folder before pushing.
+-->
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>TOOL NAME vX.Y | Free Excel tool for PURPOSE</title>
+  <meta name="description" content="ONE-SENTENCE DESCRIPTION.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="../">Mark Justine</a>
+      <nav>
+        <a href="../#tools">Tools</a>
+        <a href="../#about">About</a>
+        <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/issues">Feedback</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <span class="tag">CATEGORY · vX.Y</span>
+      <h1>TOOL NAME</h1>
+      <p class="lead">ONE-SENTENCE DESCRIPTION.</p>
+
+      <div class="download">
+        <a class="btn" href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/releases/download/TOOL-SLUG-vX.Y/ZIP-NAME.zip">Download TOOL NAME vX.Y (.zip)</a>
+        <p class="small">Free · Windows Excel desktop · Includes the workbook, full VBA source, README and license. Unblock the zip before extracting (<a href="#unblock">how</a>).</p>
+        <p class="small">SHA-256 of <code>ZIP-NAME.zip</code>:
+          <span class="hash">SHA256-HASH</span></p>
+      </div>
+
+      <figure>
+        <img src="../assets/TOOL-SLUG-main.png" alt="DESCRIBE THE SCREENSHOT" width="WIDTH" height="HEIGHT">
+        <figcaption>CAPTION (fictional sample data).</figcaption>
+      </figure>
+
+      <h2>What it does</h2>
+      <ul>
+        <li><strong>FEATURE:</strong> DESCRIPTION.</li>
+      </ul>
+
+      <h2>Requirements</h2>
+      <ul>
+        <li>Windows with Excel desktop (Microsoft 365 or Excel 2016 or later).</li>
+      </ul>
+
+      <h2>Set up in 5 steps</h2>
+      <ol>
+        <li>Download the zip and unblock it before extracting (see below).</li>
+        <li>STEP.</li>
+        <li>STEP.</li>
+        <li>STEP.</li>
+        <li>STEP.</li>
+      </ol>
+
+      <h2 id="unblock">Unblock the download</h2>
+      <p>Windows blocks macros in files downloaded from the internet. This is a normal security feature. Do this once:</p>
+      <ol>
+        <li>Right-click <code>ZIP-NAME.zip</code> and choose <strong>Properties</strong>.</li>
+        <li>On the <strong>General</strong> tab, tick <strong>Unblock</strong>, then click <strong>OK</strong>.</li>
+        <li>Extract the zip. Everything inside is now unblocked.</li>
+      </ol>
+
+      <h2>Disclaimer</h2>
+      <div class="note">
+        <p>Free, unofficial tool provided as is, without warranty. It is not legal, regulatory or compliance advice and does not replace your firm's policies, procedures or systems. This is a personal project, not affiliated with any employer, firm or regulator. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/TOOL-SLUG/DISCLAIMER.md">Full disclaimer</a>.</p>
+      </div>
+
+      <h2>License</h2>
+      <p>Creative Commons Attribution-NonCommercial 4.0 International (<a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>). <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/TOOL-SLUG/LICENSE">License text</a>.</p>
+
+      <h2>Changelog</h2>
+      <h3>X.Y · DATE</h3>
+      <p>SUMMARY. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/TOOL-SLUG/CHANGELOG.md">Full changelog</a>.</p>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <p><a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/issues">Report a problem or suggest a feature</a> · <a href="https://www.linkedin.com/in/mark-justine-ruiz-a25a5a308/">LinkedIn</a></p>
+      <p>No cookies, no analytics.</p>
+    </div>
+  </footer>
+</body>
+</html>
