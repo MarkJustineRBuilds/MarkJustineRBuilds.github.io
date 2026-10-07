@@ -73,9 +73,21 @@
       <h2>Requirements</h2>
       <ul>
         <li>Windows desktop Excel 2021 or Microsoft 365, 32-bit or 64-bit, with macros enabled.</li>
-        <li>Runtime-tested on Microsoft 365 64-bit. Excel 2021 and 32-bit are supported by design but were not runtime-tested (<a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/TEST_REPORT.md">test report</a>).</li>
+        <li>Runtime-tested on Microsoft 365 64-bit only. See the known limitations below.</li>
         <li>Not supported: Excel for Mac, Excel for the web, Excel 2019 or older.</li>
       </ul>
+
+      <h2 id="limitations">Known limitations of v1.0</h2>
+      <div class="note">
+        <p>These were <strong>not verified</strong> for this release. Test on a copy with sample data before using real data.</p>
+        <ul>
+          <li><strong>Excel 2021:</strong> not runtime-tested. The code avoids Microsoft 365-only functions, but this has not been confirmed in Excel 2021.</li>
+          <li><strong>32-bit Excel:</strong> not runtime-tested. The code is written to be 32/64-bit compatible, but this has not been confirmed on 32-bit Excel.</li>
+          <li><strong>Downloaded copy:</strong> Protected View and the Enable Content prompt on a file downloaded to another PC were not tested; the download was only simulated.</li>
+          <li><strong>File-import security review:</strong> not performed. Source files are opened read-only with their macros disabled and links not updated, but the import code has not had a dedicated security review. Import only files you trust.</li>
+        </ul>
+        <p class="small">Other untested areas (large client lists, write-protected folders, non-English Excel) are listed in the <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/TEST_REPORT.md">test report</a>, section 3.</p>
+      </div>
 
       <h2>Set up in 5 steps</h2>
       <ol>
