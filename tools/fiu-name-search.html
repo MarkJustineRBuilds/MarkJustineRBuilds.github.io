@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>FIU Name Search v1.0 | Free Excel tool for FIU name searches</title>
+  <meta name="description" content="Free offline Excel tool for searching FIU request names against your own client list, with human review and PDF evidence. Full VBA source included.">
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="../">Mark Justine System Builds</a>
+      <nav>
+        <a href="../#tools">Tools</a>
+        <a href="../#about">About</a>
+        <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/issues">Feedback</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <span class="tag">AML · v1.0</span>
+      <h1>FIU Name Search</h1>
+      <p class="lead">An offline Excel tool for searching names from FIU requests against your own client list, recording a human review decision for every possible match and saving a PDF evidence record for every search.</p>
+
+      <div class="download">
+        <a class="btn" href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/releases/download/fiu-name-search-v1.0/FIU_Name_Search_v1.0.zip">Download FIU Name Search v1.0 (.zip)</a>
+        <p class="small">Free · Windows Excel desktop · Includes a blank workbook, a demo workbook with fictional data, full VBA source, README, test report and license. Unblock the zip before extracting (<a href="#unblock">how</a>).</p>
+        <p class="small">SHA-256 of <code>FIU_Name_Search_v1.0.zip</code>:
+          <span class="hash">92b0f584600dcb98fba7e9caf3653f146bad470996d5cae3cd884aed52a41234</span></p>
+      </div>
+
+      <figure>
+        <a href="../assets/fiu-name-search-start.png"><img src="../assets/fiu-name-search-start.png" alt="Start sheet: setup status, request totals, the review queue and the main buttons" width="1918" height="720"></a>
+        <figcaption>Start sheet after a demo batch: setup status, request totals and the review queue (fictional sample data).</figcaption>
+      </figure>
+
+      <h2>What it does</h2>
+      <ul>
+        <li><strong>Your client list, offline:</strong> paste it in, or import from Excel or CSV with header mapping. Each search records which client-list snapshot it used.</li>
+        <li><strong>FIU requests:</strong> paste or import them. The FIU's standard column names map automatically. English and Arabic names are supported.</li>
+        <li><strong>Batch search:</strong> searches every new request once, with pause, cancel and resume.</li>
+        <li><strong>Human review:</strong> every possible match waits for a person to decide: Name Match, Partial Name Match or No Match, with a written note.</li>
+        <li><strong>PDF evidence:</strong> one for every search, including zero-candidate results and pending reviews. Never overwritten.</li>
+        <li><strong>Audit trail:</strong> stable IDs for requests, searches, candidates and evidence. Reruns keep the earlier search, decision and PDF in history.</li>
+        <li><strong>Response tracking:</strong> record your response status and date separately from screening.</li>
+        <li><strong>Your data stays with you.</strong> The workbook sends nothing anywhere and connects to no portal, email system or cloud service.</li>
+      </ul>
+
+      <figure>
+        <a href="../assets/fiu-name-search-review.png"><img src="../assets/fiu-name-search-review.png" alt="Search and Review sheet: manual search fields, the request under review and its candidate table with match type and reasons" width="1918" height="720" loading="lazy"></a>
+        <figcaption>Search &amp; Review: each candidate shows its match type, matched words and comparison notes before you decide.</figcaption>
+      </figure>
+
+      <figure>
+        <a href="../assets/fiu-name-search-evidence-pdf.png"><img src="../assets/fiu-name-search-evidence-pdf.png" alt="Evidence PDF for a reviewed request with decision No Match, the client list snapshot, matching rules and candidate table" width="898" height="621" loading="lazy"></a>
+        <figcaption>Evidence PDF for a reviewed request: snapshot, rules, candidates, decision and reviewer note.</figcaption>
+      </figure>
+
+      <h2>What a result means</h2>
+      <div class="note">
+        <ul>
+          <li><strong>A candidate is a possible name match, not an identity match.</strong> Every candidate needs human review of dates, country, identifiers and other information.</li>
+          <li><strong>"No candidate found" is an engine result, not a conclusion.</strong> It only covers the client list you loaded.</li>
+          <li><strong>Whole-word matching only.</strong> No fuzzy, phonetic or transliteration matching: MOHAMMED does not match MUHAMMAD, and English and Arabic names are not cross-matched.</li>
+          <li><strong>It does not respond to the FIU.</strong> Any response is made by you through the official channel.</li>
+        </ul>
+        <p class="small">Full detail: <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/SCOPE_NOTE.md">SCOPE_NOTE.md</a>.</p>
+      </div>
+
+      <h2>Requirements</h2>
+      <ul>
+        <li>Windows desktop Excel 2021 or Microsoft 365, 32-bit or 64-bit, with macros enabled.</li>
+        <li>Runtime-tested on Microsoft 365 64-bit. Excel 2021 and 32-bit are supported by design but were not runtime-tested (<a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/TEST_REPORT.md">test report</a>).</li>
+        <li>Not supported: Excel for Mac, Excel for the web, Excel 2019 or older.</li>
+      </ul>
+
+      <h2>Set up in 5 steps</h2>
+      <ol>
+        <li>Download the zip and unblock it before extracting (see below). Try <code>FIU_Name_Search_Demo_v1.0.xlsm</code> first: click <strong>Run Batch</strong> and review the sample results.</li>
+        <li>Open <code>FIU_Name_Search_Public_v1.0.xlsm</code> and click <strong>Enable Content</strong>. Load your client list with <strong>Import Client List</strong>, or paste values into the Client List sheet, then click <strong>Validate Client List</strong>.</li>
+        <li>Load requests with <strong>Import FIU Requests</strong>, or paste them into the FIU Requests sheet.</li>
+        <li>Click <strong>Run Batch</strong> and choose an evidence folder when asked. Every request is searched once and gets a PDF.</li>
+        <li>Click <strong>Review Pending</strong>, mark matching candidates, choose a decision, write a note and click <strong>Save Decision</strong>. Then record your response in the Response Status and Response Date columns.</li>
+      </ol>
+
+      <h2 id="unblock">Unblock the download</h2>
+      <p>Windows blocks macros in files downloaded from the internet. This is a normal security feature. Do this once:</p>
+      <ol>
+        <li>Right-click <code>FIU_Name_Search_v1.0.zip</code> and choose <strong>Properties</strong>.</li>
+        <li>On the <strong>General</strong> tab, tick <strong>Unblock</strong>, then click <strong>OK</strong>.</li>
+        <li>Extract the zip. Everything inside is now unblocked.</li>
+      </ol>
+      <p>On a work computer, your IT team may block internet macros completely; ask them rather than changing security settings yourself. Every line of code is in the <code>src</code> folder as plain text for review. Full guide: <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/HOW-TO-UNBLOCK.md">HOW-TO-UNBLOCK.md</a>.</p>
+
+      <h2>Disclaimer</h2>
+      <div class="note">
+        <p>Free, unofficial tool provided as is, without warranty. It is not legal, regulatory or compliance advice and does not decide whether any person or entity is a match. It does not replace your organisation's AML/CFT policies, procedures, screening systems or the judgement of your compliance officer or MLRO. You remain responsible for FIU response deadlines. Before entering client information, confirm your data-protection policies allow it. This is a personal project, not affiliated with any employer, firm, FIU or regulator. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/DISCLAIMER.md">Full disclaimer</a>.</p>
+      </div>
+
+      <h2>License</h2>
+      <p>Creative Commons Attribution-NonCommercial 4.0 International (<a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>). Free to use and adapt for non-commercial purposes with attribution. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/LICENSE">License text</a>.</p>
+
+      <h2>Changelog</h2>
+      <h3>1.0 · 7 October 2026</h3>
+      <p>First public release: offline client-list snapshots, whole-word matching engine, batch search with pause and resume, human review, PDF evidence for every search, Search History and response tracking. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/CHANGELOG.md">Full changelog</a> · <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/README.md">Full README</a>.</p>
+    </div>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <p><a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/issues">Report a problem or suggest a feature</a> · <a href="https://www.linkedin.com/in/mark-justine-ruiz-a25a5a308/">LinkedIn</a></p>
+      <p>No cookies, no analytics.</p>
+    </div>
+  </footer>
+</body>
+</html>
