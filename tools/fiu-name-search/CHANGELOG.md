@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.1 (07-10-2026)
+
+Paste-only release: the tool no longer opens, reads or links to any other file.
+
+- **Removed: Excel/CSV file import.** Import Client List, Import FIU Requests, the file picker, opening of source workbooks, CSV parsing, header mapping, preview/commit, the temporary file copy, and the Import, Import Log and Staging sheets are gone. Evidence-folder selection and PDF export are unchanged.
+- **Paste Special > Values** into the Client List and FIU Requests tables, with instructions and zone labels on each sheet.
+- **New Validate FIU Requests button**; Validate Client List now also sets the client-list revision. Both checks also run at the start of every manual search and every batch.
+- **Formulas are refused** before any search or batch, with the cell addresses and how to replace them with values. Text that only looks like a formula, and IDs with leading zeros, stay text.
+- **Rows pasted directly under a table are added to it.** Data anywhere else outside the table (after a blank row, to the right, or in the instruction rows) stops the check with its cell addresses instead of being ignored.
+- **FIU Requests columns reordered**: the eleven input columns come first, then the columns filled by the tool (grey), then the Response columns (green). A Request ID or Screening Status the tool did not write (for example a paste that was too wide) stops the batch.
+- **Repeated reference + name** rows are marked Error and not searched (previously skipped at import). The earliest searchable row is kept.
+- **Client-list revision**: starts only when the content changes (sorting does not), is recorded with its record count on every run, search and PDF, and two changes in the same second get different revisions.
+- Generated Record IDs and Request IDs are never reused after rows are deleted.
+- Client List: the Import ID and Loaded At columns were removed.
+- **Client List and FIU Requests are now protected** (no password). Input columns, Response columns and 20,000 empty rows under each table stay editable; headers, instructions, zone labels and the tool's columns are locked. Macros still update the locked columns. New **Delete Selected Rows** button on both sheets, because Excel blocks deleting rows on protected sheets. Excel limits sorting and filtering on protected sheets.
+
 ## 1.0 (07-10-2026)
 
 First public release.
