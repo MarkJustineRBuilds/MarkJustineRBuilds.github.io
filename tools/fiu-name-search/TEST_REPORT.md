@@ -1,113 +1,108 @@
-# Test report: FIU Name Search 1.1
+# Test report: FIU Name Search 1.1.1
 
 Date: 07-10-2026. Environment: Windows 11, Microsoft 365 Excel 64-bit (16.0), desktop.
 
-All results below were produced on copies of the **final** release files, after the last code change. Earlier passing runs were not counted.
+All results below were produced on copies of the **final** release files, after the last code change. Earlier passing runs were not counted. All test data is fictional.
 
 | File | SHA-256 |
 |---|---|
-| FIU_Name_Search_Public_v1.1.xlsm | F64887F9295B4365A263666CA23405A618594D9149C7984B35B9359DCA5F06E9 |
-| FIU_Name_Search_Demo_v1.1.xlsm | F58B4F645E3AD205F1A6B19F285E16BFC7E6861B983400D37F7DB42BC8D2DA8E |
+| FIU_Name_Search_Public_v1.1.1.xlsm | 106F1B42D3D59A8CD1FFCF13F076801D154329CA24AC004494285F584F2B23F7 |
+| FIU_Name_Search_Demo_v1.1.1.xlsm | 3D271C477BB956EAC786B823CB80224362A8CC46EDAE95BDEB3FDF56B6C7E717 |
 
-## What changed in 1.1
+## What changed in 1.1.1
 
-External Excel/CSV import was **removed**, not hardened. Client List and FIU Requests are now **protected**: only input and response cells (and empty rows under each table) are editable. Data is entered by Paste Special > Values into the Client List and FIU Requests tables and validated by the tool. The 1.0 import tests (CSV, xlsm with an external link and a Workbook_Open macro, open-workbook import) were removed with the feature and were **not** re-run. No test source files were created for 1.1: all test data is fictional and is pasted from an unsaved scratch workbook in the same Excel session.
+- **Problem reported:** in 1.1, a multi-row Paste Values into FIU Requests failed with "The cell or chart you're trying to change is on a protected sheet", while typing worked.
+- **Cause, reproduced on the published 1.1 file with Excel's own ribbon Paste Values command:** a 3-row paste of the 11 input columns raised the message. The Flag column was an Excel formula (calculated) column, and when a paste grew the table Excel tried to fill that formula into the new rows' locked Flag cells. A 14-column paste of the FIU export was refused outright, because the 12th column was the locked Request ID. The same pastes on Client List (no formula column) worked.
+- **Fix:** FIU Requests now starts with the 14 FIU export columns (SNO to CHECKERDATE), all unlocked, and Flag is written by the tool instead of by a formula column.
 
-## 1. Automated checks (Excel automation, real workbook code)
+## 1. Clipboard paste with Excel's own command (not array assignment)
 
-### 1.1 Build and compile
-- Both workbooks were built from the `src` modules, round-tripped through `.xlsx` to drop any earlier compiled code, re-imported, and compiled in Excel. **Compile: OK** for both. They contain only the 7 modules in `src` plus the sheet and workbook modules (modImport is gone).
+A copy of the final Public file was opened normally, so it carried its real protection. Rows were copied from a separate workbook and pasted with the ribbon **Paste Values** command (`CommandBars.ExecuteMso "PasteValues"`); one case used the ribbon **Paste** (Ctrl+V equivalent). Any Excel message was recorded. Afterwards the tool's Validate buttons were run.
 
-### 1.2 Runtime suite: 232 checks, run on a copy of each file
+| Paste | Result |
+|---|---|
+| Client List, 3 rows x 9 columns at A6 (first data cell) | all 27 cells landed; the table grew from 1 to 3 rows; no message |
+| Client List, 2 rows x 9 columns directly under the table | landed; no message |
+| Client List, 2 rows x 3 columns with normal Paste | landed; no message |
+| FIU Requests, 3 rows x **10** columns (SNO to REFNUMBER) at A6 | all 30 cells landed; the table grew from 1 to 3 rows; no message |
+| FIU Requests, 3 rows x **14** columns (SNO to CHECKERDATE) directly under the table | all 42 cells landed; no message |
+| FIU Requests, 2 rows x 14 columns inside the table (A7) | all 28 cells landed; no message |
+| FIU Requests, 1 row x **15** columns (one past CHECKERDATE) | refused by Excel with the protected-sheet message, as intended |
+
+Validate then reported "Client list OK: 5 record(s)" and "FIU requests OK: 6 request(s) waiting", including the rows pasted under each table. Request IDs were assigned. PUBDATE, DUEDATE and CHECKERDATE pasted as `2026-10-01` text were shown as `01-10-2026`, and both sheets were still protected.
+
+The same paste on the published 1.1 file, for comparison: the 11-column FIU paste gave the protected-sheet message and the 14-column paste landed nothing.
+
+## 2. Automated checks (Excel automation, real workbook code)
+
+### 2.1 Build and compile
+Both workbooks were built from the `src` modules, round-tripped through `.xlsx` to drop any earlier compiled code, re-imported, and compiled in Excel. **Compile: OK** for both: 7 modules plus the sheet and workbook modules.
+
+### 2.2 Runtime suite: 241 checks, run on a copy of each file
 
 | File tested | Result |
 |---|---|
-| Copy of the Public release | **PASS 232 / FAIL 0** |
-| Copy of the Demo release | **PASS 232 / FAIL 0** |
+| Copy of the Public release | **PASS 241 / FAIL 0** |
+| Copy of the Demo release | **PASS 241 / FAIL 0** |
 
-The whole suite runs with Client List and FIU Requests protected, so every paste, validation, batch, review and PDF above was done with the protection in place. Prompts were answered by a scripted test harness. Any prompt the harness did not expect fails the test instead of waiting.
+The suite runs with both paste sheets protected. Pastes inside the suite use Excel's Copy and PasteSpecial from a scratch workbook (VBA), which carries the macros' protection exemption. That is why section 1 tests the user's path separately. Prompts were answered by a scripted harness.
 
 | Area | Checks | Covered |
 |---|---|---|
-| Normalisation | 14 | Unchanged from 1.0. |
-| Matching | 17 | Unchanged from 1.0. |
-| Client list | 8 | Empty list and invalid rows block the batch; requests stay New; missing Record IDs generated. |
-| Batch | 19 | Unchanged from 1.0 (pending vs no candidate, no invented review, Error rows, leading zeros, repeat names, settings restored). |
-| Review | 16 | Unchanged from 1.0. |
+| Normalisation, matching | 31 | Unchanged from 1.1. |
+| Client list, batch, review | 43 | Unchanged from 1.1, run against the new FIU column layout. |
 | Stable IDs / sorting | 2 | Requests and history sorted; links and Review Pending still correct. |
-| Rerun, pause / resume / cancel, error handling, PDF failure / folders, paths, multipage, manual search | 44 | Unchanged from 1.0. |
-| **Pasted client list** | 16 | 7 rows pasted as values grow the table; leading-zero Record ID and reference kept; IDs generated; same-name people separate; `=SUM(A1:A2) Literal Co`, `=1+1`, `+971 Trading`, `-0042` stay literal text in the table, the history, the review panel and the PDF; Natural / Juridical Person accepted; Arabic kept; unrecognised date noted, not blocking; revision and count recorded. |
-| **Paste problems** | 17 | A formula from a normal paste is refused with its cell address by Validate, by manual search and by Run Batch (nothing searched); after Paste Values it validates. Blank Party Type and repeated Record ID block with row numbers. Rows written directly under the table are taken in. Data after a blank row, to the right of the table, and in the instruction area are each rejected with the address. Zero-length text left by Paste Values is not treated as data. Sorting keeps IDs with rows and keeps the revision. |
-| **Pasted FIU requests** | 17 | A paste one column too wide (value in Request ID) is refused. A formula in Reference Number refuses the batch with its address; nothing is marked searched. Validate notes the repeated reference + name and a text due date, and assigns Request IDs. Batch: the copy is Error, the first row is searched; leading zeros, same name under other references, Juridical Person, digits warning, formula-looking literal name, real dates. The run records the validated revision and record count. A PDF for every searched request. A corrected row pasted after a broken one is searched; the broken row is Error. |
-| **Snapshots after list change** | 7 | A decision is saved, then the list is edited and a row deleted. The new search uses the new revision; the earlier search keeps its revision, decision, candidate names as searched and PDF; the two runs record different revisions. |
-| Recovery, versioning | 5 | Interrupted run; half-searched request becomes Error; an edit creates a new revision, an unchanged list keeps it, two changes in the same second get different revisions. |
-| Sample data / repair | 4 | Unchanged from 1.0. |
-| Dates | 26 | Date rules unchanged; the import part was replaced by pasted values: real date cell, number 1980, text 1980, two-digit year, ambiguous, invalid, blank and unambiguous text. |
-| Protection fallback | 4 | Unchanged from 1.0. |
-| **Protection** | 15 | Both paste sheets protected; input, Source Label and Response columns unlocked; Validation, Request ID, Screening Status and Flag locked; headers, instructions and zone labels locked; spare rows under the table unlocked for input columns only; cells right of the table locked. Rows pasted under the protected table are taken in by validation, the macro writes the Validation column and the new rows are relocked. A batch writes status, IDs and evidence into the locked columns and restores the Flag formula. Delete Selected Rows removes the selected row and keeps the sheet protected; outside the tables it does nothing. |
+| Rerun, pause / resume / cancel, error handling, PDF failure / folders, paths, multipage, manual search | 44 | Unchanged from 1.1. |
+| Pasted client list | 17 | As 1.1, plus a `1985-03-12` text date stored as a date and shown `12-03-1985`. |
+| Paste problems | 17 | Formula cells refused with their address (validate, manual search, batch); blank Party Type and repeated Record ID; rows under the table taken in; data after a blank row, to the right and in the instructions rejected; zero-length text ignored; sorting keeps IDs and revision. |
+| **Pasted FIU requests (14-column layout)** | 22 | 3 rows pasted with all 14 export columns at A6 and 3 rows with 10 columns under the table: all 6 taken in. A 15-column paste (value in Request ID) refused. A formula in REFNUMBER refuses the batch with its address. Repeated REFNUMBER + name marked Error; the first row searched. YYYY-MM-DD DUEDATE stored as a date shown DD-MM-YYYY; MAKERDATE with a time keeps the time; SNO, MAKER, CHECKER kept as pasted; source STATUS kept separate from Screening Status; leading zeros; Juridical Person; digits warning; formula-looking literal name; run records the client-list revision and count; a PDF for every searched request; corrected re-paste searched. |
+| Snapshots after list change | 7 | Unchanged from 1.1. |
+| Recovery, versioning | 5 | Unchanged from 1.1. |
+| Sample data / repair | 4 | Clear Sample Data and Repair Layout keep the other rows. |
+| Dates | 26 | Unchanged rules; pasted date values. |
+| Protection fallback | 4 | Unchanged from 1.1. |
+| **Protection** | 18 | Both sheets protected; all 14 FIU export columns and the operator columns unlocked; Request ID, Screening Status and Flag locked; headers, instructions and zone labels locked; spare rows under the table unlocked for input columns only. Rows pasted under the table taken in and relocked. A batch writes status, IDs and evidence into locked columns; Flag holds no formula. A past DUEDATE shows OVERDUE as soon as it is entered, and entering a Response Status clears it at once. Delete Selected Rows works and keeps the sheet protected. |
 | Global | 1 | Calculation mode unchanged after the whole suite. |
 
-After the run, only the test copy was open in that Excel session, and it had no external links and no connections.
+### 2.3 Reopen, protection and portability (Verify, on copies of the final files)
+- Demo batch: all 10 sample requests as in 1.1 (9 Pending Review, 1 No Candidate Found). Flags: REPEAT NAME, CHECK NAME, and OVERDUE on the past-due sample.
+- Opened without startup macros: a locked history cell is blocked until the first button macro, then macros write again; no sheet left unprotected.
+- Public release moved and renamed: Start first; five visible sheets; 7 hidden, none very hidden; structure protected; **no external links, connections or queries**; **all 34 buttons point to existing public macros**; the release opens empty.
+- Typing as a person (opened without the macros' exemption):
+  - **allowed:** client input cells; FIU SNO, REFNUMBER, CHECKERDATE and Response Status;
+  - **blocked:** client Validation, headers, instructions, zone labels and cells right of the table; FIU Request ID and Screening Status;
+  - **blocked:** deleting a sheet row with Excel;
+  - **object model only:** filtering was refused and sorting was allowed.
 
-### 1.3 Reopen, protection and portability (Verify, on copies of the final files)
-- Demo opened with startup macros skipped: a write to a locked history cell was blocked (error 1004); after the first button macro, writes worked; no sheet is left unprotected; Excel state restored.
-- Demo batch: all 10 sample requests behaved as in 1.0 (9 Pending Review, 1 No Candidate Found).
-- Normal reopen: Start active; five visible tabs; no sheet left unprotected after the batch.
-- Public release copied to another folder under another name: Start first; 7 supporting sheets hidden, none very hidden; structure protected; **no external links, connections or queries**; **all 34 buttons point to existing public macros and none is tied to a file name**; navigation and repair macros ran; the release opens empty (one Flag formula placeholder in FIU Requests, as in 1.0).
+### 2.4 No external file access (static check of `src`)
+No routine opens, reads or links an external Excel or CSV file. The only file-related calls are the retained evidence-folder ones: the folder picker (`FileDialog(4)`), `Shell explorer.exe` to open the folder, and the folder write test that deletes its own `.tmp` file.
 
-### 1.4 Protection as a person meets it
-A copy of the Public file was opened with startup macros off, so the macros' UI-only exemption was not active and Excel applied the saved protection exactly as it does to typing:
+### 2.5 Sanitisation
+- Leak scan of the distribution folder: **HIGH 0**; MEDIUM 14 = the 7 approved hidden supporting sheets in each workbook.
+- Compiled VBA (oletools decompression of every stream): 4 "email" HIGH hits inside still-compressed raw streams (compression markers splitting words around an at-sign, the same false positive as 1.0 and 1.1). The decompressed module source has no email address and no local path.
+- Private-data cross-check: 137 private values from the original workbook searched in every XML part, document, `src` file and decompressed VBA stream, held in memory and not printed. **0 hits.**
 
-| Action | Result |
-|---|---|
-| Type in Client List input cells (Full Legal Name, Party Type) | allowed |
-| Type in Client List Validation, header, instructions, zone label, or right of the table | blocked |
-| Type in FIU Reference Number and Response Status | allowed |
-| Type in FIU Request ID, Screening Status or a header | blocked |
-| Paste Special > Values of 2 rows under the client table | allowed |
-| Paste Special > Values 11 columns wide (reaching the Validation column) | blocked |
-| Delete a sheet row with Excel | blocked (use Delete Selected Rows) |
-| Filter the client table through the object model | blocked |
-| Sort the client table through the object model | allowed |
+## 3. Visual checks
+- Reviewed demo PDF (No Match, "Sample Reviewer"): CUSTOMERNAME ARB, REQUESTTYPE and PUBDATE / DUEDATE read from the new FIU columns; client-list revision line present.
+- Screenshots of Start, Client List, FIU Requests, Settings & Help and Search & Review (fictional data). FIU headers are readable at 70% zoom, and Settings & Help shows Quick Start first, then Editable Settings.
 
-Then the Validate buttons ran (0.5 s): the 2 pasted rows were taken into the table, the macro wrote "OK" into the locked Validation column, assigned a Request ID in the locked FIU column, and both sheets stayed protected. Sorting and filtering from Excel's own header buttons were not tried by hand (section 4).
+## 4. Code review
+A review of the 1.1 -> 1.1.1 diff found 6 items:
+- **Fixed:** Flag stayed stale until the next button action (it now refreshes when FIU Requests is edited or pasted); the duplicate message said "Reference Number" (now REFNUMBER).
+- **Not changed:** errors inside the Flag refresh are silent within the Start refresh; Settings & Help row heights are estimated for merged cells; recognised text dates are converted in place, by design; a build-only diagnostic cell.
 
-### 1.5 No external file access (static check of `src`)
-The source was searched for `Workbooks.Open/Add/OpenText`, `GetOpenFilename`, `FileDialog`, `QueryTables`, `Connections`, ODBC/OLEDB/ADO, `FileCopy`, file reads (`Open ... For Input/Binary`, `Line Input`, FileSystemObject), `Dir(`, `Kill`, `Shell`, link updates and web functions. Remaining hits, all retained by design: the evidence **folder** picker (`FileDialog(4)`), `Shell explorer.exe` for Open Evidence Folder, the evidence-folder write test (writes and deletes its own `.tmp` file), `Scripting.Dictionary`, and the Esc-key read (`GetAsyncKeyState`). **No routine opens, reads or links an external Excel or CSV file.**
+The built-in /security-review was **not run**: the release folder is not a git repository.
 
-### 1.6 Sanitisation
-- Release-skill leak scan of the distribution folder: **HIGH 0**. MEDIUM 14: the 7 approved hidden supporting sheets in each workbook (accepted; their tables are empty in the Public file apart from the Flag placeholder). INFO: compiled VBA, scanned separately below.
-- Compiled VBA (oletools decompression of every stream, both files): 14 "email" HIGH hits are in still-compressed raw streams, where compression markers split words such as `Scripting.Dictionary` around an at-sign (same false positive as 1.0). The decompressed module source has **no** email address. No user paths, network paths, OneDrive/SharePoint links or organisation terms. The Windows user name appears only as the English word "Mark" ("Mark at least one candidate") and in procedure names such as MarkError.
-- Private-data cross-check: 137 private values from the original workbook (names, references, notes, reviewer names, paths, organisation terms) were searched for in every XML part, document, `src` file and decompressed VBA stream. Held in memory, not printed. **0 hits.**
+## 5. Not tested, or known limitations (please check manually)
+- **Pasting by a person.** Section 1 used Excel's own Paste Values and Paste commands through automation, not a person's keyboard or mouse; Ctrl+Alt+V (the Paste Special dialog) was not driven. Please paste once yourself (`test-checklist.md`).
+- **Sorting and filtering** the protected tables from Excel's header buttons were not tried by hand.
+- **Settings & Help paragraph heights** are estimated (merged cells do not auto-fit); check they read cleanly at your zoom and font.
+- **Paste wider than the input columns** (Client List past I, FIU past N) is refused by Excel by design; more than 20,000 new rows at once must be pasted in parts.
+- Only Request ID and Screening Status are checked for values the tool did not write; values typed onto the instruction cells are not reported.
+- Numbers that only display leading zeros arrive as plain numbers with Paste Values.
+- Excel 2021 and 32-bit Excel: not available (static evidence only). Mark-of-the-Web / Protected View on another PC: simulated only. Large volumes (10,000+ rows), write-protected folders, PCs without a PDF driver, non-English Excel: not tested.
+- Sheet protection has no password: a safety catch, not security.
 
-## 2. Visual checks (by reading the generated PDFs)
-- Manual-search PDF for the client `=SUM(A1:A2) Literal Co`: the name, the government ID `=1+1` and the search name print as literal text.
-- Reviewed batch PDF (pasted request 0012345): REVIEWED – NAME MATCH banner, Arabic name left-aligned, selected candidate, reviewer and note, and the client-list line "CLV-… (revision from …; validated …; 10 records; pasted Client List) – records searched: 10".
-- Demo reviewed PDF (No Match, fictional reviewer) rendered to PNG for the download page.
-
-## 3. Code review
-A structured review of the 1.0 → 1.1 source diff found 8 items. Fixed and covered by tests: a corrected re-paste was being treated as a copy of a broken row; zero-length text from Paste Values counted as data outside the table; help text overstated which grey columns are checked; an over-long Request ID could overflow; two revisions in the same second could share an ID. Not changed (known limitations, section 4): pasting onto the instruction or band-label cells is accepted; validation of very large tables is row-by-row.
-A second review of the protection change found 7 items. Fixed: a validation message told users to filter the Validation column, which may not work on the protected sheet. Not changed (section 4): relocking cost on each protect call, sort/filter limits, a formatted paste carrying a locked format, the 20,000-row paste area, deletion of already-searched requests (warned), and a style point.
-The built-in /security-review was **not run**: it needs a git branch, and this release folder is not a git repository.
-
-## 4. Not tested, or known limitations (please check manually)
-- **Real clicking and real pasting by a person.** Pasting was done by Excel's own Copy and PasteSpecial through automation; every button macro ran, but MsgBox, InputBox and the folder picker were answered by the harness. Please paste a few rows and click through once yourself.
-- **Sorting and filtering on the protected tables** from Excel's header buttons were not tried by hand. Through the object model, filtering was refused and sorting was allowed; Excel's interface normally refuses to sort ranges that contain locked cells.
-- **A normal paste (Ctrl+V) with formatting** may carry the source's locked format into input cells until the next validation relocks them. Not tested by hand.
-- **More than 20,000 new rows at once** reach locked cells and Excel refuses the paste; paste in parts and validate between them.
-- **Run time:** the test suite took about 3.5 minutes per file after protection, against 1.5 minutes before, because the input cells are relocked each time a macro re-protects a paste sheet. A single Validate took 0.5 s on a small table; large tables were not timed.
-- **Delete Selected Rows** can delete a request that was already searched, after a warning; its searches, decisions and PDFs stay in Search History.
-- **Only Request ID and Screening Status are checked for values the tool did not write.** Values pasted into the other grey columns are not detected. Paste only into the white input columns.
-- **Values pasted onto the instruction cells** (A1, A2 or the zone labels in row 4) are not reported.
-- **Numbers that only display leading zeros** (number 123 formatted as 000123) arrive as 123 with Paste Values; there is nothing for the tool to detect. Format such IDs as text in the source.
-- **Esc to pause**: tested through a hook, not a physical key press.
-- **Excel 2021 and 32-bit Excel**: not available; static evidence only (`PtrSafe` with `#If VBA7`, late binding, no dynamic-array functions).
-- **Mark-of-the-Web / Protected View** on another PC: Zone.Identifier simulated only (section 5).
-- **Large volumes**: tested with up to 130 client records and 120 candidates per search. Validation reads some cells one at a time, so very large FIU tables (10,000+ rows) may validate slowly; not measured.
-- Write-protected folders, PCs without a PDF driver, non-English Excel or other regional settings: not tested.
-- Workbook and sheet protection has no password. It is a safety catch against accidents, not security: anyone can unprotect a sheet.
-
-## 5. Package
-- Zip: `FIU_Name_Search_v1.1.zip`. Its SHA-256 is published alongside it (the zip cannot contain its own checksum).
-- Contents: the two workbooks, `src/` (7 modules + ThisWorkbook), README, TEST_REPORT, CHANGELOG, SCOPE_NOTE, DISCLAIMER, HOW-TO-UNBLOCK and LICENSE. No private build tools, test files, logs or config.
-- Leak scan of the zip and download simulation: see `release-notes.md` for the zip hash; results are recorded in the private leak report.
+## 6. Package
+- Zip: `FIU_Name_Search_v1.1.1.zip`. Its SHA-256 is published alongside it.
+- Contents: the two workbooks, `src/` (7 modules + ThisWorkbook), README, TEST_REPORT, CHANGELOG, SCOPE_NOTE, DISCLAIMER, HOW-TO-UNBLOCK and LICENSE.

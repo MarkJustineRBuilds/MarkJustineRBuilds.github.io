@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FIU Name Search v1.1 | Free Excel tool for FIU name searches</title>
+  <title>FIU Name Search v1.1.1 | Free Excel tool for FIU name searches</title>
   <meta name="description" content="Free offline Excel tool for searching FIU request names against your own client list, with human review and PDF evidence. Paste-only: it opens no other files. Full VBA source included.">
   <link rel="stylesheet" href="../style.css">
 </head>
@@ -21,15 +21,16 @@
 
   <main>
     <div class="wrap">
-      <span class="tag">AML · v1.1</span>
+      <span class="tag">AML · v1.1.1</span>
       <h1>FIU Name Search</h1>
       <p class="lead">An offline Excel tool for searching names from FIU requests against your own client list, recording a human review decision for every possible match and saving a PDF evidence record for every search.</p>
 
       <div class="download">
-        <a class="btn" href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/releases/download/fiu-name-search-v1.1/FIU_Name_Search_v1.1.zip">Download FIU Name Search v1.1 (.zip)</a>
+        <a class="btn" href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/releases/download/fiu-name-search-v1.1.1/FIU_Name_Search_v1.1.1.zip">Download FIU Name Search v1.1.1 (.zip)</a>
         <p class="small">Free · Windows Excel desktop · Includes a blank workbook, a demo workbook with fictional data, full VBA source, README, test report and license. Unblock the zip before extracting (<a href="#unblock">how</a>).</p>
-        <p class="small">SHA-256 of <code>FIU_Name_Search_v1.1.zip</code>:
-          <span class="hash">1dae824700ac6e6efa3488dbf5cdda9cb4012cf2d7d819793dc7e2eaf6d9cc88</span></p>
+        <p class="small">SHA-256 of <code>FIU_Name_Search_v1.1.1.zip</code>:
+          <span class="hash">ccf6692a29eaecc16238f03ae6cd3f67a84c56ea2d1f57ea45f83cc5105bf283</span></p>
+        <p class="small">Previous version: <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/releases/tag/fiu-name-search-v1.1">v1.1 release</a> (kept unchanged).</p>
       </div>
 
       <figure>
@@ -40,6 +41,7 @@
       <h2>What it does</h2>
       <ul>
         <li><strong>Paste-only, offline:</strong> copy rows from your own client register and FIU requests, then Paste Special &gt; Values into the tool. It never opens, imports or links to another file.</li>
+        <li><strong>Matches the FIU export:</strong> the first 14 FIU Requests columns are SNO, LOCK, CUSTOMERTYPE, CUSTOMERNAME ENG, CUSTOMERNAME ARB, REQUESTTYPE, STATUS, PUBDATE, DUEDATE, REFNUMBER, MAKER, MAKERDATE, CHECKER, CHECKERDATE. Paste 10 or 14 columns at cell A6 without rearranging them. YYYY-MM-DD dates are shown as DD-MM-YYYY.</li>
         <li><strong>Checked before every search:</strong> required fields, party types, dates, repeated IDs and repeated reference + name rows. Formulas are refused with their cell addresses, and data pasted outside the tables is reported instead of ignored.</li>
         <li><strong>Protected sheets:</strong> only the input and response cells can be edited. Headers, instructions and the columns the tool fills are locked.</li>
         <li><strong>Batch search:</strong> searches every new request once, with pause, cancel and resume.</li>
@@ -50,13 +52,18 @@
       </ul>
 
       <figure>
-        <a href="../assets/fiu-name-search-client-list.png"><img src="../assets/fiu-name-search-client-list.png" alt="Client List sheet: paste instructions, Validate Client List and Delete Selected Rows buttons, and the client table with a locked Validation column" width="1550" height="410" loading="lazy"></a>
-        <figcaption>Client List: paste values into the input columns; the tool fills the locked Validation column.</figcaption>
+        <a href="../assets/fiu-name-search-client-list.png"><img src="../assets/fiu-name-search-client-list.png" alt="Client List sheet: paste instructions, Validate Client List and Delete Selected Rows buttons, and the client table with a locked Validation column" width="1550" height="420" loading="lazy"></a>
+        <figcaption>Client List: paste values at A6 (or under the last row); the tool fills the locked Validation column.</figcaption>
       </figure>
 
       <figure>
-        <a href="../assets/fiu-name-search-requests.png"><img src="../assets/fiu-name-search-requests.png" alt="FIU Requests sheet: the input columns labelled for pasting, followed by the locked columns filled by the tool" width="1550" height="262" loading="lazy"></a>
-        <figcaption>FIU Requests: input columns first, then the locked columns the tool fills, then your response columns.</figcaption>
+        <a href="../assets/fiu-name-search-requests.png"><img src="../assets/fiu-name-search-requests.png" alt="FIU Requests sheet: the 14 FIU export columns from SNO to CHECKERDATE, followed by the locked columns filled by the tool" width="1550" height="360" loading="lazy"></a>
+        <figcaption>FIU Requests: the FIU export columns first (paste at A6), then the locked columns the tool fills, then your response columns.</figcaption>
+      </figure>
+
+      <figure>
+        <a href="../assets/fiu-name-search-settings.png"><img src="../assets/fiu-name-search-settings.png" alt="Settings and Help sheet: Quick Start steps, then the editable settings table" width="1550" height="792" loading="lazy"></a>
+        <figcaption>Settings &amp; Help: Quick Start first, then editable settings, sheet instructions and troubleshooting.</figcaption>
       </figure>
 
       <figure>
@@ -87,25 +94,25 @@
         <li>Not supported: Excel for Mac, Excel for the web, Excel 2019 or older.</li>
       </ul>
 
-      <h2 id="limitations">Known limitations of v1.1</h2>
+      <h2 id="limitations">Known limitations of v1.1.1</h2>
       <div class="note">
         <p>These were <strong>not verified</strong> for this release. Test on a copy with sample data before using real data.</p>
         <ul>
           <li><strong>Excel 2021 and 32-bit Excel:</strong> not runtime-tested. The code avoids Microsoft 365-only functions and is written to be 32/64-bit compatible, but this has not been confirmed.</li>
           <li><strong>Downloaded copy:</strong> Protected View and the Enable Content prompt on a file downloaded to another PC were not tested; the download was only simulated.</li>
-          <li><strong>Pasting and clicking by a person:</strong> pastes and buttons were driven through Excel automation, not by hand.</li>
+          <li><strong>Pasting by a person:</strong> multi-row pastes were checked with Excel's own Paste Values command (inside the table and directly under it, 10 and 14 FIU columns), driven by automation rather than by hand. Please paste once yourself.</li>
           <li><strong>Sorting and filtering</strong> the two protected tables from Excel's header buttons were not tried by hand; Excel limits both on protected sheets.</li>
           <li><strong>Grey columns:</strong> only Request ID and Screening Status are checked for values the tool did not write. Paste only into the input columns.</li>
           <li><strong>Leading zeros:</strong> a number that only <em>displays</em> leading zeros in your source (123 shown as 000123) arrives as 123. Format such IDs as text first.</li>
         </ul>
-        <p class="small">Other untested areas (large lists, write-protected folders, non-English Excel) are listed in the <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/TEST_REPORT.md">test report</a>, section 4. Sheet protection has no password: it prevents accidents, it is not security.</p>
+        <p class="small">Other untested areas (large lists, write-protected folders, non-English Excel) are listed in the <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/TEST_REPORT.md">test report</a>, section 5. Sheet protection has no password: it prevents accidents, it is not security.</p>
       </div>
 
       <h2>Set up in 5 steps</h2>
       <ol>
-        <li>Download the zip and unblock it before extracting (see below). Try <code>FIU_Name_Search_Demo_v1.1.xlsm</code> first: click <strong>Run Batch</strong> and review the sample results.</li>
-        <li>Open <code>FIU_Name_Search_Public_v1.1.xlsm</code> and click <strong>Enable Content</strong>. Arrange your client register's columns in the tool's order, copy the rows, then right-click the first row of the Client List table &gt; <strong>Paste Special &gt; Values</strong>. Click <strong>Validate Client List</strong>.</li>
-        <li>Paste your FIU requests the same way into the input columns of FIU Requests, and click <strong>Validate FIU Requests</strong>.</li>
+        <li>Download the zip and unblock it before extracting (see below). Try <code>FIU_Name_Search_Demo_v1.1.1.xlsm</code> first: click <strong>Run Batch</strong> and review the sample results.</li>
+        <li>Open <code>FIU_Name_Search_Public_v1.1.1.xlsm</code> and click <strong>Enable Content</strong>. Arrange your client register's columns in the tool's order, copy the rows, click cell <strong>A6</strong> on Client List (or the first empty row under the table) and use <strong>Paste Special &gt; Values</strong>. Click <strong>Validate Client List</strong>.</li>
+        <li>Copy the FIU export rows as they are, SNO to REFNUMBER (10 columns) or SNO to CHECKERDATE (14 columns), click cell <strong>A6</strong> on FIU Requests and use <strong>Paste Special &gt; Values</strong>. Click <strong>Validate FIU Requests</strong>.</li>
         <li>Click <strong>Run Batch</strong> and choose an evidence folder when asked. Every request is searched once and gets a PDF.</li>
         <li>Click <strong>Review Pending</strong>, mark matching candidates, choose a decision, write a note and click <strong>Save Decision</strong>. Then record your response in the Response Status and Response Date columns.</li>
       </ol>
@@ -113,7 +120,7 @@
       <h2 id="unblock">Unblock the download</h2>
       <p>Windows blocks macros in files downloaded from the internet. This is a normal security feature. Do this once:</p>
       <ol>
-        <li>Right-click <code>FIU_Name_Search_v1.1.zip</code> and choose <strong>Properties</strong>.</li>
+        <li>Right-click <code>FIU_Name_Search_v1.1.1.zip</code> and choose <strong>Properties</strong>.</li>
         <li>On the <strong>General</strong> tab, tick <strong>Unblock</strong>, then click <strong>OK</strong>.</li>
         <li>Extract the zip. Everything inside is now unblocked.</li>
       </ol>
@@ -128,6 +135,8 @@
       <p>Creative Commons Attribution-NonCommercial 4.0 International (<a href="https://creativecommons.org/licenses/by-nc/4.0/">CC BY-NC 4.0</a>). Free to use and adapt for non-commercial purposes with attribution. <a href="https://github.com/MarkJustineRBuilds/MarkJustineRBuilds.github.io/blob/main/tools/fiu-name-search/LICENSE">License text</a>.</p>
 
       <h2>Changelog</h2>
+      <h3>1.1.1 · 7 October 2026</h3>
+      <p>Fixed multi-row Paste Values into FIU Requests, which Excel refused with a protected-sheet message. FIU Requests now starts with the 14 FIU export columns in their own order and spelling; paste 10 or 14 columns at A6. YYYY-MM-DD dates are stored as dates and shown as DD-MM-YYYY. Paste instructions name the first data cell. Settings &amp; Help reorganised into Quick Start, Editable Settings, sheet instructions and Troubleshooting. Moving from 1.1: see README &gt; Updating to a new version.</p>
       <h3>1.1 · 7 October 2026</h3>
       <p>Paste-only: the Excel/CSV file import was removed, and the tool no longer opens or links to any other file. New Validate FIU Requests button; validation runs again before every search and batch, refuses formulas and reports data outside the tables. FIU Requests input columns come first. Client List and FIU Requests are protected, with a Delete Selected Rows button. Every run records the client-list revision and record count.</p>
       <h3>1.0 · 7 October 2026</h3>

@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.1.1 (07-10-2026)
+
+Usability fixes for pasting. Existing users: see README > Updating to a new version.
+
+- **Fixed: multi-row Paste Values into FIU Requests failed** with "The cell or chart you're trying to change is on a protected sheet". Cause: the Flag column was an Excel formula column, and Excel tried to fill it into locked cells when a paste grew the table. Flag is now written by the tool (whenever FIU Requests is edited or pasted, on open and after every button action), so pastes inside the table and directly under it work on the protected sheet. Checked with Excel's own Paste Values command.
+- **FIU Requests now starts with the FIU export layout**: SNO, LOCK, CUSTOMERTYPE, CUSTOMERNAME ENG, CUSTOMERNAME ARB, REQUESTTYPE, STATUS, PUBDATE, DUEDATE, REFNUMBER, MAKER, MAKERDATE, CHECKER, CHECKERDATE, in that order and spelling. Paste the first 10 or all 14 columns without rearranging them. LOCK and MAKER to CHECKERDATE are kept but not used for screening; STATUS stays separate from Screening Status. The tool's columns follow, then the operator's columns (Response Status, Response Date, Response Note, and optional Date of Birth/Incorporation, Country, Government ID).
+- **YYYY-MM-DD text dates** (and other unambiguous text dates) are stored as real dates and shown as DD-MM-YYYY on both paste sheets; a time after the date is kept.
+- **Paste instructions name the first data cell (A6)** on Client List and FIU Requests.
+- **Settings & Help reorganised**: Quick Start, Editable Settings, Client List Instructions, FIU Requests Instructions, Review and PDF Instructions, Troubleshooting.
+
 ## 1.1 (07-10-2026)
 
 Paste-only release: the tool no longer opens, reads or links to any other file.

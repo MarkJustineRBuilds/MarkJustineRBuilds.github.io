@@ -2,14 +2,14 @@
 
 An offline Excel tool for searching names from FIU requests against **your own** client list (clients and associated parties), recording a human review decision for every possible match and saving a PDF evidence record for every search.
 
-Version 1.1
+Version 1.1.1
 
 ## What is in this folder
 
 | File | Purpose |
 |---|---|
-| `FIU_Name_Search_Public_v1.1.xlsm` | The tool. Opens empty and ready for your data. |
-| `FIU_Name_Search_Demo_v1.1.xlsm` | The same tool with fictional sample clients and requests, for practice. |
+| `FIU_Name_Search_Public_v1.1.1.xlsm` | The tool. Opens empty and ready for your data. |
+| `FIU_Name_Search_Demo_v1.1.1.xlsm` | The same tool with fictional sample clients and requests, for practice. |
 | `src/` | Every line of VBA as plain text, for review by you or your IT team. |
 | `SCOPE_NOTE.md` | What a result does and does not mean. Please read. |
 | `LICENSE`, `DISCLAIMER.md`, `HOW-TO-UNBLOCK.md`, `CHANGELOG.md`, `TEST_REPORT.md` | Disclaimer, unblocking steps, version history, test results. |
@@ -30,8 +30,8 @@ The tool sends nothing anywhere. It does not connect to any FIU portal, email sy
 
 ## First use (5 steps)
 
-1. **Paste your client list.** Copy the rows from your own register, then **Paste Special > Values** into the Client List table. Click **Validate Client List**.
-2. **Paste FIU requests.** **Paste Special > Values** into the white input columns of FIU Requests. Click **Validate FIU Requests**.
+1. **Paste your client list.** Copy the rows from your own register (columns in the tool's order). On Client List, click cell **A6** (or the first empty row under the table) and use **Paste Special > Values**. Click **Validate Client List**.
+2. **Paste FIU requests.** Copy the FIU export rows as they are, **SNO to REFNUMBER** (10 columns) or **SNO to CHECKERDATE** (14 columns). On FIU Requests, click cell **A6** (or the first empty row under the table) and use **Paste Special > Values**. Click **Validate FIU Requests**.
 3. **Run Batch.** Choose an evidence folder when asked. Every request is searched once and gets a PDF.
 4. **Review candidates.** Start > **Review Pending**. Mark matching candidates with **Select = Yes**, choose a **Decision**, write a **Review note**, then click **Save Decision**.
 5. **Open evidence.** Start > **Open Evidence Folder**. PDFs are filed in a dated sub-folder.
@@ -50,7 +50,7 @@ Five sheets are visible for daily use:
 | **Client List** | Your clients and associated parties (one row per person or entity). |
 | **FIU Requests** | Requests to search, screening progress and your response tracking. |
 | **Search & Review** | Manual search, plus the candidate review panel. |
-| **Settings & Help** | Settings, entity suffix list, response list and operating notes. |
+| **Settings & Help** | Quick Start, Editable Settings (settings, response list, entity suffix list), Client List, FIU Requests and Review/PDF instructions, Troubleshooting. |
 
 Supporting sheets are hidden. They are kept as history, not removed:
 
@@ -58,7 +58,7 @@ Supporting sheets are hidden. They are kept as history, not removed:
 - **Candidates, Runs, Evidence Log, Log**: the audit trail behind reviews and PDFs.
 - **System, Evidence Layout**: internal working areas.
 
-Every sheet is protected without a password, as a safety catch against accidental edits (not security). On **Client List** and **FIU Requests** you can edit only the input columns (and, on FIU Requests, the green Response columns), in the table and in the empty rows under it. Headers, the instruction rows, the zone labels and the columns the tool fills are locked.
+Every sheet is protected without a password, as a safety catch against accidental edits (not security). On **Client List** and **FIU Requests** you can edit only the input columns (and, on FIU Requests, the green operator columns), in the table and in the empty rows under it. Headers, the instruction rows, the zone labels and the columns the tool fills are locked.
 
 The tool's own macros still update the locked columns. To remove rows, select a cell in each row and click **Delete Selected Rows** on that sheet (Excel's own row delete is blocked on protected sheets). Excel limits sorting and filtering on protected sheets, so the table header buttons may not sort or filter these two tables. Every request, search, candidate and decision has a stable ID, so the order of rows never breaks the links between them.
 
@@ -66,12 +66,16 @@ The tool's own macros still update the locked columns. To remove rows, select a 
 
 The tool has no file import. You copy rows from your own workbook and paste them as **values**:
 
-1. In your own register, put the columns in the same order as the tool's table (insert or move columns in a copy if needed).
-2. Select and copy the data rows (not the headers).
-3. In the tool, right-click the first empty row of the table > **Paste Special > Values** (keyboard: Ctrl+Alt+V, then V, Enter).
-4. Click the **Validate** button for that sheet.
+| Sheet | First data cell | Paste these columns |
+|---|---|---|
+| Client List | **A6** | Record ID to Source Label (A to I), in the tool's order |
+| FIU Requests | **A6** | the FIU export as it is: SNO to REFNUMBER (A to J, 10 columns) or SNO to CHECKERDATE (A to N, 14 columns) |
 
-Paste inside the table, or directly under its last row with no blank row in between. The table grows to include those rows when you validate. Up to 20,000 empty rows under each table are open for pasting; paste a larger list in parts and validate between them. A paste that is too wide for the input columns is refused by Excel, because it would reach a locked column. Anything else on the sheet outside the table (after a blank row, to the right of the table, or in the instruction rows above it) stops validation, and the message gives the cell addresses.
+1. Select and copy the data rows (not the headers).
+2. In the tool, click the first data cell, or the first empty row directly under the table, and use **Paste Special > Values** (keyboard: Ctrl+Alt+V, then V, Enter).
+3. Click the **Validate** button for that sheet. Rows pasted under the table become part of it.
+
+Up to 20,000 empty rows under each table are open for pasting; paste a larger list in parts and validate between them. A paste wider than the input columns is refused by Excel ("...on a protected sheet") because it would reach a locked column: copy fewer columns. Anything else on the sheet outside the table (after a blank row, to the right of the table, or in the instruction rows above it) stops validation, and the message gives the cell addresses.
 
 **Why values only:** a normal paste (Ctrl+V) also brings formulas and formatting. Formula cells are refused before any search or batch, with their addresses. To fix them, select the cells, Copy, then **Home > Paste > Paste Values** over the same cells. Text that only looks like a formula (for example `=ABC`, `+971 ...` or `-0042`) is fine when the source cell holds it as text, and it stays text in every table, review and PDF.
 
@@ -88,7 +92,7 @@ Paste inside the table, or directly under its last row with no blank row in betw
 | Party Type | Yes | `Individual` or `Entity` (Natural Person / Juridical Person and similar are accepted). |
 | Client/Parent Reference | No | e.g. the parent client of a UBO. |
 | Relationship/Role | No | e.g. UBO, Director, Signatory. |
-| Date of Birth/Incorporation | No | A real Excel date, or text such as 31-12-1980. |
+| Date of Birth/Incorporation | No | A real Excel date, or text such as 1980-12-31 (stored as a date, shown as DD-MM-YYYY). |
 | Country | No | |
 | Government ID | No | Kept as text. |
 | Source Label | No | e.g. `Clients`, `UBOs`. |
@@ -100,10 +104,10 @@ Each validated list gets a **revision ID** (`CLV-yyyymmdd-hhmmss`). A new revisi
 
 ### Dates
 
-These are converted to real dates:
+These are stored as real dates and shown as DD-MM-YYYY (on both sheets, including PUBDATE, DUEDATE, MAKERDATE and CHECKERDATE):
 
 - real Excel date cells;
-- ISO dates (1980-12-31);
+- YYYY-MM-DD text (2026-10-01; a time after it, such as 2026-10-01 09:30:00, is kept);
 - dates that cannot be misread (31/12/1980).
 
 These are **kept exactly as typed**, noted, and **not used in date comparisons**:
@@ -118,20 +122,29 @@ If all the dates you paste are day-first (or month-first), set **Text date order
 
 ## FIU Requests
 
-The table has three zones, labelled in the row above the headers:
+The first 14 columns match the FIU export, in its order and spelling, so you can paste the export without rearranging it:
 
-- **White input columns** (paste here): Reference Number, Name (English), Name (Arabic), Customer Type, Request Type, FIU Status, Publication Date, Due Date, Date of Birth/Incorporation, Country, Government ID. The usual FIU export columns are REFNUMBER, CUSTOMERNAME ENG, CUSTOMERNAME ARB, CUSTOMERTYPE, REQUESTTYPE, STATUS, PUBDATE and DUEDATE: arrange them in this order before copying.
-- **Grey columns** are filled by the tool (Request ID, screening status, results, review, evidence, Processing Message, Flag). Never paste into them.
-- **Green Response columns** are yours to complete after review.
+| Column | Used? |
+|---|---|
+| SNO | kept, not used |
+| LOCK | kept, not used |
+| CUSTOMERTYPE | **required**: Individual / Entity (Natural Person and Juridical Person are accepted) |
+| CUSTOMERNAME ENG | **required**: the name searched |
+| CUSTOMERNAME ARB | shown on the PDF |
+| REQUESTTYPE | shown on the PDF |
+| STATUS | the FIU's own status, kept separate from Screening Status |
+| PUBDATE | shown on the PDF |
+| DUEDATE | shown on the PDF; drives the OVERDUE flag |
+| REFNUMBER | **required**: kept as text, leading zeros included |
+| MAKER, MAKERDATE, CHECKER, CHECKERDATE | kept, not used |
 
-Rules:
+After them come the **grey columns filled by the tool** (Request ID, Added At, Screening Status, results, review, evidence, Processing Message, Flag), then the **green operator columns**: Response Status, Response Date, Response Note, and optional Date of Birth/Incorporation, Country and Government ID, which are compared with candidate records (never used to exclude them).
 
-- **Required:** Reference Number, Name (English), Customer Type.
-- Reference numbers and names are kept as text, digits included.
 - The same name under different references stays as separate requests.
-- A row with the same reference **and** the same name as an earlier searchable row is marked **Error** ("Same Reference Number and name as REQ-...") and is not searched. Delete the copy with **Delete Selected Rows**.
+- A row with the same REFNUMBER **and** the same name as an earlier searchable row is marked **Error** ("Same REFNUMBER and name as REQ-...") and is not searched. Delete the copy with **Delete Selected Rows**.
+- **Flag** (OVERDUE, ESCALATE, REPEAT NAME, CHECK NAME, ERROR) is written by the tool whenever a cell on FIU Requests is edited or pasted, when the workbook opens and after every button action. It is not an Excel formula, so a multi-row paste never has to fill a locked column.
 
-**Validate FIU Requests** assigns Request IDs and writes any problem in a New row to Processing Message (prefixed `Check:`), including dates that will not be used (for example a text due date). It stops with a message, and nothing is searched, if it finds formulas, data outside the table, or a Request ID or Screening Status the tool did not write (usually a paste that was too wide). Values pasted into the other grey columns are not detected, so paste only into the white columns.
+**Validate FIU Requests** assigns Request IDs and writes any problem in a New row to Processing Message (prefixed `Check:`), including dates that will not be used. It stops with a message, and nothing is searched, if it finds formulas, data outside the table, or a Request ID or Screening Status the tool did not write. Values in the other grey columns are not checked.
 
 ## Searching and reviewing
 
@@ -226,7 +239,11 @@ Alt+F8 > **ToggleMaintenanceMode** shows every hidden sheet with a red banner. R
 
 ## Updating to a new version
 
-Copy your rows from the old Client List and FIU Requests sheets and Paste Special > Values them into the new file. In 1.1 the FIU Requests input columns come first: copy Reference Number to Government ID as one block, without the old Request ID column. Keep the old file, with its history sheets and PDFs, as your record.
+Keep your old workbook unchanged, with its history sheets and PDFs, as your record. Start a fresh copy of the new Public file, then:
+
+1. **Client List:** copy Record ID to Source Label from the old Client List and Paste Special > Values at A6. Validate Client List.
+2. **FIU Requests (from 1.0 or 1.1):** the columns moved in 1.1.1. The simplest route is to paste the original FIU export again (SNO to REFNUMBER or SNO to CHECKERDATE) at A6. If you only have the old workbook, copy its columns into the new order: Customer Type -> CUSTOMERTYPE, Name (English) -> CUSTOMERNAME ENG, Name (Arabic) -> CUSTOMERNAME ARB, Request Type -> REQUESTTYPE, FIU Status -> STATUS, Publication Date -> PUBDATE, Due Date -> DUEDATE, Reference Number -> REFNUMBER, and Date of Birth/Incorporation, Country, Government ID and Response Status/Date/Note into the green columns of the same names. Do not copy the old Request ID, status or review columns.
+3. Validate FIU Requests and Run Batch. Requests already reviewed in the old workbook keep their decisions and PDFs there; leave them out of the new file, or let them be searched again as new records.
 
 ## Licence and disclaimer
 
